@@ -36,7 +36,7 @@ Basic features
 
 ```
 p 'hello world'
-# hello world
+# 'hello world'
 ```
 
 ```
@@ -53,7 +53,7 @@ p x
 
 ```
 p {a: 'hello', b: 'world'}['a']
-# hello
+# 'hello'
 
 x = {a: 'b', b: 'world'}
 p x['a']

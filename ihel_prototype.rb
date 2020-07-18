@@ -1,4 +1,5 @@
-#!cat ./examples/hello.ihel | ruby
+# frozen_string_literal: true
+
 require 'strscan'
 
 def tokenize(source)
@@ -6,11 +7,13 @@ def tokenize(source)
   tokens = []
   until s.eos?
     case
+    when s.scan(/^\s*#.*/)
+    when s.scan(/\s+/)
     when s.scan(/^(\w+)\s*=\s*/)
       tokens << {let: s[1]}
     when s.scan(/^p\s+/)
       tokens << :p
-    when s.scan(/{|}|:/)
+    when s.scan(/{|}|:|,/)
       tokens << s[0]
     when s.scan(/'(.*?)'/)
       tokens << {str: s[1]}
@@ -32,9 +35,36 @@ def parse(tokens)
   when nil
     []
   when :p
-    [{p: tokens[1]}, *parse(tokens[2..])]
+    (expr, rest) = parse_expr(tokens[1..])
+    [{p: expr}, *parse(rest)]
   else
-    raise tokens
+    raise tokens.inspect
+  end
+end
+
+def parse_expr(tokens)
+  case tokens
+  in [{str: str}, *rest]
+    [{str: str}, rest]
+  in ['{', *rest]
+    parse_hashmap(rest)
+  else
+    raise tokens.inspect
+  end
+end
+
+def parse_hashmap(tokens)
+  case tokens
+  in ['}', *rest]
+    [{hashmap: {}}, rest]
+  in [',', *rest]
+    parse_hashmap(rest)
+  in [{identifier: identifier}, ':', *rest]
+    (expr, rest) = parse_expr(rest)
+    (hashmap, rest) = parse_hashmap(rest)
+    [{hashmap: {identifier => expr}.merge(hashmap[:hashmap])}, rest]
+  else
+    raise tokens.inspect
   end
 end
 
@@ -42,15 +72,25 @@ def execute(insns)
   insns.each do |insn|
     case insn
     in {p: expr}
-      case expr
-      in {str: str}
-        puts str
-      else
-        raise 'not implemented yet'
-      end
+      puts inspect_expr(expr)
     else
       raise insn
     end
+  end
+end
+
+def inspect_expr(expr)
+  case expr
+  in {str: str}
+    "'#{str}'"
+  in {hashmap: hashmap}
+    '{' +
+      hashmap.map {|k, v|
+        "#{k}: #{inspect_expr(v)}"
+      }.join(', ') +
+      '}'
+  else
+    raise 'not implemented yet'
   end
 end
 

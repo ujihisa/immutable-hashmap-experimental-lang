@@ -1,0 +1,10 @@
+#!ruby ./ihel_prototype.rb
+p {a: 'hello', b: 'world'}
+# {a: 'hello', b: 'world'}
+
+p {b: 'hello', a: 'world'}
+# {a: 'world', b: 'hello'}
+
+#x = {c: 'hello', d: 'world'}
+#p x
+# {c: 'hello', d: 'world'}

@@ -1,1 +1,3 @@
+#!ruby ./ihel_prototype.rb
 p 'hello world'
+# 'hello world'
