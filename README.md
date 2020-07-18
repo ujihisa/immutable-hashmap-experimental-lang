@@ -24,10 +24,13 @@ Literals
 
 Statements
 * `p` prefix
+    * O(nm)
 * `=` infix
+    * O(1) including GC
 
 Functions
 * `set`
+    * O(log n)
 
 Basic features
 
