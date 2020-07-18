@@ -83,3 +83,13 @@ p x
 p y # See, the x part is unchanged. It still refers original x value
 # {d: {a: 'a', b: 'b', c: 'c'}}
 ```
+
+## FAQ
+
+* Why `p` is not a function?
+    * To reduce the power of functions
+* Why didn't you use S-Expressions for everything?
+    * To emphasis on the fact that some commands are not composable
+* What's ihel?
+    * Immutable Hashmap Experimental Lang
+    * Pronounce like Eiffel, but not f but h. /ˈaɪhəl/;
