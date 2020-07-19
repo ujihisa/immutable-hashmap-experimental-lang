@@ -1,0 +1,11 @@
+#!ruby -W0 ./ihel_prototype.rb
+p {a: 'hello', b: 'world'}['a']
+# 'hello'
+exit
+
+x = {a: 'b', b: 'world'}
+p x['a']
+# 'b'
+
+p x[x['a']]
+# 'world'
