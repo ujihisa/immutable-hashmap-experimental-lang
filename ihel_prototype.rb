@@ -111,11 +111,9 @@ def inspect_expr(expr, variables)
   in {str: str}
     "'#{str}'"
   in {hashmap: hashmap, at: at}
-  pp hashmap
-  pp at
-  exit
     inspect_expr(hashmap[at[:str]])
   in {hashmap: hashmap}
+    raise 'hmm'
     '{' +
       hashmap.map {|k, v|
         "#{k}: #{inspect_expr(v, variables)}"
